@@ -12,7 +12,7 @@ func GetExpenseCategory(c *fiber.Ctx) error {
 	db, err := database.OpenDBConn()
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"error":   true,
+			"status":  false,
 			"message": err.Error(),
 		})
 	}
@@ -21,7 +21,7 @@ func GetExpenseCategory(c *fiber.Ctx) error {
 	category, err := db.GetCategories()
 	if err != nil {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-			"error":   true,
+			"status":  false,
 			"message": "categories not found",
 			"count":   0,
 			"data":    nil,
@@ -30,7 +30,7 @@ func GetExpenseCategory(c *fiber.Ctx) error {
 
 	// return success
 	return c.JSON(fiber.Map{
-		"error":   false,
+		"status":  true,
 		"message": "categories found",
 		"count":   len(category),
 		"data":    category,
@@ -45,7 +45,7 @@ func GetExpenseCategoryById(c *fiber.Ctx) error {
 	db, err := database.OpenDBConn()
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"error":   true,
+			"status":  false,
 			"message": err.Error(),
 		})
 	}
@@ -54,7 +54,7 @@ func GetExpenseCategoryById(c *fiber.Ctx) error {
 	category, err := db.GetCategories()
 	if err != nil {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-			"error":   true,
+			"status":  false,
 			"message": fmt.Sprintf("category with id %s not found", id),
 			"data":    nil,
 		})
@@ -62,7 +62,7 @@ func GetExpenseCategoryById(c *fiber.Ctx) error {
 
 	// return success
 	return c.JSON(fiber.Map{
-		"error":   false,
+		"status":  true,
 		"message": fmt.Sprintf("category with id %s found", id),
 		"data":    category,
 	})

@@ -10,4 +10,6 @@ func PublicRoutes(a *fiber.App) {
 
 	routeV1.Get("books", controllers.GetExpenseCategory)
 	routeV1.Get("book/:id", controllers.GetExpenseCategoryById)
+
+	routeV1.Post("user", controllers.CreateUser)
 }
