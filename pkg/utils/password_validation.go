@@ -1,6 +1,10 @@
 package utils
 
-import "golang.org/x/crypto/bcrypt"
+import (
+	"regexp"
+
+	"golang.org/x/crypto/bcrypt"
+)
 
 func NormalizePassword(p string) []byte {
 	return []byte(p)
@@ -28,4 +32,13 @@ func ComparePassword(hashedPassword, inputedPassword string) bool {
 		return false
 	}
 	return true
+}
+
+func SimplePasswordValidation(password string) bool {
+	regex_, err := regexp.Compile(`^(.{0,7}|[^0-9]*|[^A-Z]*|[^a-z]*|[a-zA-Z0-9]*)$`)
+	if err != nil {
+		return false
+	}
+
+	return regex_.MatchString(password)
 }
