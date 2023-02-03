@@ -8,7 +8,13 @@ require (
 	github.com/jmoiron/sqlx v1.3.5
 )
 
-require github.com/joho/godotenv v1.4.0 // indirect
+require (
+	github.com/joho/godotenv v1.4.0 // indirect
+	github.com/keegancsmith/rpc v1.3.0 // indirect
+	github.com/stamblerre/gocode v1.0.0 // indirect
+	golang.org/x/mod v0.7.0 // indirect
+	golang.org/x/tools v0.5.0 // indirect
+)
 
 require (
 	github.com/andybalholm/brotli v1.0.4 // indirect

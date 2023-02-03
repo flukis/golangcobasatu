@@ -14,3 +14,8 @@ type User struct {
 	Email     string    `db:"email" json:"email" validate:"required,lte=255"`
 	Password  string    `db:"password" json:"password" validate:"required,lte=255,gte=8"`
 }
+
+type UserActivity struct {
+	LogTime time.Time `db:"log_time" json:"log_time"`
+	UserID  string    `db:"user_id" json:"user_id"`
+}

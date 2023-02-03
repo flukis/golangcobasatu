@@ -139,7 +139,27 @@ func LoginUser(c *fiber.Ctx) error {
 		})
 	}
 
+	// check activity
+	_, err = db.GetLogActivity(foundedUser.ID)
+	if err == nil {
+		// Return status 406 if already login
+		return c.Status(fiber.StatusNotAcceptable).JSON(fiber.Map{
+			"error": true,
+			"msg":   fmt.Sprintf("already login with email %s", foundedUser.Email),
+		})
+	}
+
 	tokens, err := utils.GenerateNewTokens(foundedUser.ID.String())
+	if err != nil {
+		// Return status 500 and token generation error.
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": true,
+			"msg":   err.Error(),
+		})
+	}
+
+	now := time.Now().UTC()
+	err = db.CreateLogAcitivity(foundedUser.ID, now)
 	if err != nil {
 		// Return status 500 and token generation error.
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{

@@ -8,6 +8,7 @@ import (
 type Queries struct {
 	*queries.ExpenseCategoryQuery
 	*queries.UserAccountQuery
+	*queries.UserActivityQuery
 }
 
 func OpenDBConn() (*Queries, error) {
@@ -27,5 +28,6 @@ func OpenDBConn() (*Queries, error) {
 	return &Queries{
 		&queries.ExpenseCategoryQuery{DB: db},
 		&queries.UserAccountQuery{DB: db},
+		&queries.UserActivityQuery{DB: db},
 	}, err
 }

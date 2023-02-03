@@ -1,6 +1,8 @@
 package queries
 
 import (
+	"time"
+
 	"github.com/fahmilukis/expense-tracker/app/models"
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
@@ -8,6 +10,10 @@ import (
 
 // struct query for expense category
 type UserAccountQuery struct {
+	*sqlx.DB
+}
+
+type UserActivityQuery struct {
 	*sqlx.DB
 }
 
@@ -115,5 +121,49 @@ func (q *UserAccountQuery) DeleteUser(id uuid.UUID) error {
 	}
 
 	// This query returns nothing.
+	return nil
+}
+
+// create acitivity
+func (q *UserActivityQuery) CreateLogAcitivity(id uuid.UUID, t time.Time) error {
+	query := `INSERT INTO user_logs VALUES ($1, $2)`
+
+	_, err := q.Exec(
+		query,
+		id, t,
+	)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// Sign acitvity in database
+func (q *UserActivityQuery) GetLogActivity(id uuid.UUID) (models.UserActivity, error) {
+	// define variable
+	user := models.UserActivity{}
+
+	// define query string
+	query := `SELECT * FROM user_logs WHERE user_id = $1`
+
+	err := q.Get(&user, query, id)
+	if err != nil {
+		return user, err
+	}
+
+	return user, nil
+}
+
+// delete activity
+func (q *UserActivityQuery) DeleteActivity(id uuid.UUID) error {
+	query := `DELETE FROM user_logs WHERE id = $1`
+
+	_, err := q.Exec(query, id)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
