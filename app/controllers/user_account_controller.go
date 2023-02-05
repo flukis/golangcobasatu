@@ -178,3 +178,11 @@ func LoginUser(c *fiber.Ctx) error {
 		},
 	})
 }
+
+func Logout(c *fiber.Ctx) error {
+	// return success
+	return c.JSON(fiber.Map{
+		"status":  true,
+		"message": "success logout account",
+	})
+}

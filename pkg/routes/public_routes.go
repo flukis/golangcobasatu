@@ -7,10 +7,6 @@ import (
 
 func PublicRoutes(a *fiber.App) {
 	routeV1 := a.Group("/api/v1")
-
-	routeV1.Get("books", controllers.GetExpenseCategory)
-	routeV1.Get("book/:id", controllers.GetExpenseCategoryById)
-
 	routeV1.Post("signup", controllers.CreateUser)
 	routeV1.Post("signin", controllers.LoginUser)
 }
